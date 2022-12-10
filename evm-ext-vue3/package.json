@@ -13,7 +13,7 @@
   },
   "author": "kotsmile",
   "scripts": {
-    "dev": "",
+    "dev": "tsc -w",
     "type": "tsc --noEmit",
     "build": "rm -rf ./lib && tsc",
     "format": "prettier --write \"./src/**/*.{js,ts,jsx,tsx,vue}\"",
@@ -21,7 +21,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "ethers": "5.5.3"
+    "ethers": "5.5.3",
+    "pinia": "^2.0.28"
   },
   "devDependencies": {
     "prettier": "2.8.1",
