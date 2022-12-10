@@ -1,5 +1,4 @@
 import type { EvmConfig } from '../../config/type'
-
 import type { ContractsJSONStruct, AppChainIds, ContractsDefinition } from './type'
 
 import { useContractsOnChain_config, useContracts_config } from './use'
@@ -27,5 +26,4 @@ export type {
   ContractsDefinitionShared,
   ContractsJSONStruct,
 } from './type'
-
 export { contractType } from './utils'
