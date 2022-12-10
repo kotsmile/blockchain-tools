@@ -23,11 +23,3 @@ export type Events = {
 export type RawEventType = keyof RawEvents
 export type EventType = keyof Events
 export type Filter<Event extends EventType> = (args: Events[Event]['args']) => boolean
-
-export function toBeforeEvent<E extends RawEventType>(event: E) {
-  return `before${capitalize(event)}` as `before${Capitalize<E>}`
-}
-
-export function toAfterEvent<E extends RawEventType>(event: E) {
-  return `after${capitalize(event)}` as `after${Capitalize<E>}`
-}

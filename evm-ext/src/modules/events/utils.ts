@@ -1,4 +1,5 @@
-import type { Events, EventType } from './type'
+import { capitalize } from '../../utils'
+import type { Events, EventType, RawEventType } from './type'
 
 const MODULE_LABEL = '[Event Module]'
 
@@ -32,4 +33,12 @@ export const emitMsg = <Event extends EventType>(
       font-weight: bold;
     `
   )
+}
+
+export function toBeforeEvent<E extends RawEventType>(event: E) {
+  return `before${capitalize(event)}` as `before${Capitalize<E>}`
+}
+
+export function toAfterEvent<E extends RawEventType>(event: E) {
+  return `after${capitalize(event)}` as `after${Capitalize<E>}`
 }

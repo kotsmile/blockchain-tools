@@ -18,4 +18,4 @@ export type {
   RawEventType,
   RawEvents,
 } from './type'
-export { toAfterEvent, toBeforeEvent } from './type'
+export { toAfterEvent, toBeforeEvent } from './utils'
