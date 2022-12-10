@@ -1,20 +1,14 @@
-import { EvmConfig } from '../../config/type'
+import type { EvmConfig } from '../../config/type'
 
-import {
-  Events,
-  EventType,
-  Filter,
-  RawEventType,
-  toAfterEvent,
-  toBeforeEvent,
-} from './type'
+import type { Events, EventType, Filter, RawEventType } from './type'
+import { toAfterEvent, toBeforeEvent } from './type'
 import storage_config from '../storage'
-import { entries } from '../../utils/tools'
-import { log } from './utils'
+
+import { log, emitMsg } from './utils'
 
 export default (config: EvmConfig) => {
   return {
-    useEvent: () => ({
+    useEvents: () => ({
       addListener<Event extends EventType>(
         event: Event,
         callback: (args: Events[Event]['args']) => any,
@@ -54,11 +48,12 @@ export default (config: EvmConfig) => {
         update('event', 'listeners', (ls) => ls.filter((l) => l.id !== listenerId))
       },
       async _emit<Event extends EventType>(event: Event, args: Events[Event]['args']) {
-        log(`Emit ${event}`)
         const { get } = storage_config(config)
 
         const removeIds: number[] = []
         const listeners = get('event', 'listeners')
+
+        let listenersTriggered = 0
 
         await Promise.all(
           listeners
@@ -66,10 +61,13 @@ export default (config: EvmConfig) => {
             .map(async (l) => {
               if (!(l.filters.some((f) => f(args)) || l.filters.length === 0)) return
               if (l.once) removeIds.push(l.id)
+
+              listenersTriggered++
               await l.callback(args)
             })
         )
 
+        emitMsg(event, args, listenersTriggered)
         removeIds.forEach(this.removeListener)
       },
       async emit<Event extends RawEventType>(event: Event, args: Events[Event]['args']) {
@@ -77,22 +75,11 @@ export default (config: EvmConfig) => {
         await this._emit(event, args)
         await this._emit(toAfterEvent(event), args)
       },
-      async init() {
-        const stores = config.stores
-        for (const [name, store] of entries(stores)) {
-          console.log('add event on "init"', name)
-          const initStore = async () => await store.onInit()
-          this.addListener('init', initStore)
-        }
-        console.log('emit event "init"')
-        await this._emit('init', {})
-      },
     }),
   }
 }
 
 export type { Storage } from './_storage'
-
 export type {
   AfterEvent,
   BeforeEvent,

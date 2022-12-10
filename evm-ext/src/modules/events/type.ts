@@ -1,4 +1,4 @@
-import { StoreLifecycle } from '../store'
+import type { StoreLifecycle } from '../store'
 
 export type CallbackFunction = (...args: any) => any
 
