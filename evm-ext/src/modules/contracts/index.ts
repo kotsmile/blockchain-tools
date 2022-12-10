@@ -28,4 +28,4 @@ export type {
   ContractsJSONStruct,
 } from './type'
 
-export type { contractType } from './utils'
+export { contractType } from './utils'
