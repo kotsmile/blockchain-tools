@@ -1,4 +1,4 @@
-import type { Namespace, Key, Value } from '../modules/storage/schema'
+import type { Namespace, Key, Value } from '../modules/state/schema'
 
 export type Adapter = () => {
   setValue: <N extends Namespace, K extends Key<N>, V extends Value<N, K>>(

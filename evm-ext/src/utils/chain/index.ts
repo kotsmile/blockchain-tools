@@ -28,7 +28,7 @@ export const chainIds = {
 } as const
 
 export type ChainTag = keyof typeof chainIds
-export type ChainId = typeof chainIds[ChainTag]
+export type ChainId = `${typeof chainIds[ChainTag]}`
 
 export type Types = 'mainnet' | 'testnet' | 'fork' | 'localhost'
 

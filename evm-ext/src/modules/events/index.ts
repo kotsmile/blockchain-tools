@@ -1,6 +1,6 @@
 import type { EvmConfig } from '../../config/type'
 
-import { useEvents_config } from './event.storage'
+import { useEvents_config } from './event.state'
 
 export default (config: EvmConfig) => {
   return {
@@ -8,7 +8,7 @@ export default (config: EvmConfig) => {
   }
 }
 
-export type { Storage } from './event.storage'
+export type { EventsState } from './event.state'
 export type {
   AfterEvent,
   BeforeEvent,
