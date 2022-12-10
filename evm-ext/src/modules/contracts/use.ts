@@ -65,15 +65,21 @@ export const useContracts_config = <
   config: EvmConfig<ContractsJSON, ChainIds, DefaultChainId, Contracts>
 ) => {
   return (signer?: INotNullSigner) => {
+    if (!config.DEFAULT_CHAINID)
+      return {} as UseContracts<Contracts['shared'], ChainIds[number]>
+
     const chainId = config.DEFAULT_CHAINID // TODO: get actual chainId from web3 store like
 
+    if (!config.contractsJSON)
+      return {} as UseContracts<Contracts['shared'], ChainIds[number]>
+
     const contractsJSON = config.contractsJSON
-    const allContracts = contractsJSON[chainId][0].contracts
+    const allContracts = contractsJSON[chainId][0].contracts ?? {}
 
     return genContractObjects(
       config,
       chainId as ChainId,
-      config.contracts.shared,
+      config.contracts?.shared ?? {},
       allContracts,
       signer
     ) as UseContracts<Contracts['shared'], ChainIds[number]>
@@ -92,13 +98,23 @@ export const useContractsOnChain_config = <
     chainId: CurrentChainId,
     signer?: INotNullSigner
   ) => {
+    if (!config.contractsJSON)
+      return {} as UseContracts<
+        Cast<
+          Contracts['on'][CurrentChainId],
+          Record<string, ContractDefinition<any, any>>
+        >,
+        ChainIds[number]
+      >
+
     const contractsJSON = config.contractsJSON
     const allContracts = contractsJSON[chainId][0].contracts
 
     return genContractObjects(
       config,
       chainId as ChainId,
-      config.contracts.on[chainId] as Record<string, ContractDefinition<any, any>>,
+      config.contracts?.on[chainId] ??
+        ({} as Record<string, ContractDefinition<any, any>>),
       allContracts,
       signer
     ) as UseContracts<

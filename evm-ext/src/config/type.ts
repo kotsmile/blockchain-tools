@@ -15,14 +15,14 @@ export type EvmConfig<
   Stores extends StoresDefinition = StoresDefinition
 > = {
   /// deployed contracts
-  readonly contractsJSON: ContractsJSON
+  readonly contractsJSON?: ContractsJSON
   /// dapp support chainids
-  readonly chainIds: ChainIds
-  readonly DEFAULT_CHAINID: DefaultChainId
-  rpc: RpcDefinition
+  readonly chainIds?: ChainIds
+  readonly DEFAULT_CHAINID?: DefaultChainId
+  rpc?: RpcDefinition
   /// contracts
-  readonly contracts: Contracts
+  readonly contracts?: Contracts
   /// stores
-  readonly stores: Stores
+  readonly stores?: Stores
   plugin: Plugin
 }

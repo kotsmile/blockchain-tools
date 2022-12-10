@@ -6,7 +6,8 @@ import { getChainTag } from '../../utils/chain'
 import type { EvmConfig } from '../../config/type'
 
 export const getRpc_config = <C extends EvmConfig>(config: C) => {
-  return (chainId: ChainId) => config.rpc(getChainTag(chainId))
+  console.warn('Empty RPC functoin')
+  return (chainId: ChainId) => config.rpc?.(getChainTag(chainId)) ?? '__NO_RPC__'
 }
 
 export const getProvider_config = <C extends EvmConfig>(config: C) => {
