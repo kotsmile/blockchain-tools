@@ -13,6 +13,6 @@ export type Adapter = () => {
   updateValue: <N extends Namespace, K extends Key<N>, V extends Value<N, K>>(
     namespace: N,
     key: K,
-    callback: (old: V) => V
+    callback: (old?: V) => V
   ) => V
 }

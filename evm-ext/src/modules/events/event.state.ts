@@ -41,7 +41,7 @@ export const useEvents_config = (config: EvmConfig) => {
     },
     removeListener(listenerId: number) {
       const { update } = state_module(config)
-      update('event', 'listeners', (ls) => ls.filter((l) => l.id !== listenerId))
+      update('event', 'listeners', (ls) => ls?.filter((l) => l.id !== listenerId) ?? [])
     },
     _addListener<Event extends EventType>(
       event: Event,
@@ -50,9 +50,9 @@ export const useEvents_config = (config: EvmConfig) => {
       once = false
     ): number {
       const { update } = state_module(config)
-      const listenerId = update('event', 'listenerId', (lId) => lId + 1)
+      const listenerId = update('event', 'listenerId', (lId) => lId ?? 1 + 1)
       update('event', 'listeners', (l) => [
-        ...l,
+        ...(l ?? []),
         {
           id: listenerId,
           event,
