@@ -1,3 +1,4 @@
+import { capitalize } from '../../utils'
 import type { StoreLifecycle } from '../store'
 
 export type CallbackFunction = (...args: any) => any
@@ -22,10 +23,6 @@ export type Events = {
 export type RawEventType = keyof RawEvents
 export type EventType = keyof Events
 export type Filter<Event extends EventType> = (args: Events[Event]['args']) => boolean
-
-export function capitalize<T extends string>(a: T): Capitalize<T> {
-  return (a[0].toUpperCase() + a.slice(1)) as Capitalize<T>
-}
 
 export function toBeforeEvent<E extends RawEventType>(event: E) {
   return `before${capitalize(event)}` as `before${Capitalize<E>}`

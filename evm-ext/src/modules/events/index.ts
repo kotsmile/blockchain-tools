@@ -90,4 +90,4 @@ export type {
   RawEventType,
   RawEvents,
 } from './type'
-export { capitalize, toAfterEvent, toBeforeEvent } from './type'
+export { toAfterEvent, toBeforeEvent } from './type'

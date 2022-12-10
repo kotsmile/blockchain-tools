@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import { describe } from 'mocha'
 
-import { keyOf, entries } from '../../utils/tools'
+import { keyOf, entries } from '../../utils'
 
 const testObj = {
   a: 'a',

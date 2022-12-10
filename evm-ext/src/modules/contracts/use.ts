@@ -6,7 +6,7 @@ import type { INotNullSigner } from '../../utils/chain/type'
 import type { ChainId } from '../../utils/chain'
 
 import type { Cast } from '../../utils/type'
-import { keyOf } from '../../utils/tools'
+import { keyOf } from '../../utils'
 
 import type {
   AppChainIds,

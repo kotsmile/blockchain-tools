@@ -45,7 +45,7 @@ describe('Storage module', () => {
     const k = 'world'
     const v = 'test'
 
-    testStorage[n] = { k: v }
+    testStorage[n] = { [k]: v }
 
     expect(storage.get<any, any, any>(n, k)).eq(v)
   })
@@ -57,7 +57,7 @@ describe('Storage module', () => {
     const v = 'test'
     const newV = 'test2'
 
-    testStorage[n] = { k: v }
+    testStorage[n] = { [k]: v }
 
     expect(
       storage.update<any, any, any>(n, k, (old) => {
