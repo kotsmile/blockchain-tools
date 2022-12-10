@@ -6,9 +6,10 @@ import type {
 import type { StoresDefinition } from '../modules/store/type'
 import type { EvmConfig } from './type'
 
-import contractsModule from '../modules/contracts'
-import eventModule from '../modules/events'
-import chainModule from '../modules/chain'
+import contractsModule, { init as initContracts } from '../modules/contracts'
+import eventsModule, { init as initEvents } from '../modules/events'
+import chainModule, { init as initChain } from '../modules/chain'
+import storeModule, { init as initStore } from '../modules/store'
 
 export const defineEvmConfig = <
   ContractsJSON extends ContractsJSONStruct,
@@ -20,9 +21,16 @@ export const defineEvmConfig = <
   config: EvmConfig<ContractsJSON, ChainIds, DefaultChainId, Contracts, Stores>
 ) => {
   return () => ({
+    init: () => {
+      initContracts(config)
+      initStore(config)
+      initEvents(config)
+      initChain(config)
+    },
     config,
     ...contractsModule(config),
-    ...eventModule(config),
+    ...eventsModule(config),
     ...chainModule(config),
+    ...storeModule(config),
   })
 }

@@ -1,10 +1,9 @@
 import type { EvmConfig } from '../../config/type'
 import type { Events, CallbackFunction, EventType, Filter, RawEventType } from './type'
 
-import { toAfterEvent, toBeforeEvent } from './type'
-import storage_config from '../storage'
+import { log, emitMsg, toAfterEvent, toBeforeEvent } from './utils'
 
-import { log, emitMsg } from './utils'
+import storage_config from '../storage'
 
 export type Storage = {
   event: {

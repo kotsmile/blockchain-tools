@@ -1,11 +1,11 @@
-import { capitalize } from '../../utils'
+import { capitalize, concat } from '../../utils'
 import type { Events, EventType, RawEventType } from './type'
 
 const MODULE_LABEL = '[Event Module]'
 
 export const log = (message: string) => {
   console.log(
-    `%c[Event Module] ${message}`,
+    `%c${MODULE_LABEL} ${message}`,
     `
       color: white; 
       background: #B11B1B; 
@@ -35,10 +35,7 @@ export const emitMsg = <Event extends EventType>(
   )
 }
 
-export function toBeforeEvent<E extends RawEventType>(event: E) {
-  return `before${capitalize(event)}` as `before${Capitalize<E>}`
-}
-
-export function toAfterEvent<E extends RawEventType>(event: E) {
-  return `after${capitalize(event)}` as `after${Capitalize<E>}`
-}
+export const toBeforeEvent = <E extends RawEventType>(event: E) =>
+  concat('before', capitalize(event))
+export const toAfterEvent = <E extends RawEventType>(event: E) =>
+  concat('after', capitalize(event))

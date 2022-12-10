@@ -1,4 +1,5 @@
 import type { EvmConfig } from '../../config/type'
+
 import { useEvents_config } from './event.storage'
 
 export default (config: EvmConfig) => {
@@ -19,3 +20,4 @@ export type {
   RawEvents,
 } from './type'
 export { toAfterEvent, toBeforeEvent } from './utils'
+export { init } from './init'

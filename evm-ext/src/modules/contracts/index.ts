@@ -27,3 +27,4 @@ export type {
   ContractsJSONStruct,
 } from './type'
 export { contractType } from './utils'
+export { init } from './init'
