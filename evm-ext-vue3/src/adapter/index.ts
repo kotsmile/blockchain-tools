@@ -1,10 +1,11 @@
 import type { adapter } from 'evm-ext'
 
 import { useEvent } from './stores/event'
+import { useWallet } from './stores/wallet'
 
 const stores = {
   event: useEvent,
-  wallet: {} as any,
+  wallet: useWallet,
 }
 
 export const vueAdapater: adapter.Adapter = () => ({
