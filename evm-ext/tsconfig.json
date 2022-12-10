@@ -1,0 +1,18 @@
+{
+  "include": ["src/**/*", "src"],
+  "exclude": ["node_modules"],
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "declaration": true,
+    "declarationMap": true,
+    "outDir": "./lib",
+    "resolveJsonModule": true,
+    "lib": ["esnext", "dom"],
+    "strict": true,
+    "preserveValueImports": false,
+    "skipLibCheck": true,
+    "importsNotUsedAsValues": "preserve",
+    "isolatedModules": true
+  }
+}
