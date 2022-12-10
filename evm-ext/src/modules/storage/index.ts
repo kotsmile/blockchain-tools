@@ -2,9 +2,9 @@ import type { EvmConfig } from '../../config/type'
 
 export default (config: EvmConfig) => {
   return {
-    get: config.plugin().getValue,
-    set: config.plugin().setValue,
-    update: config.plugin().updateValue,
+    get: config.adapter().getValue,
+    set: config.adapter().setValue,
+    update: config.adapter().updateValue,
   }
 }
 

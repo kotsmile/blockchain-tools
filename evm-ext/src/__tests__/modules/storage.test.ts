@@ -2,10 +2,10 @@ import { expect } from 'chai'
 
 import { defineEvmConfig } from '../../config'
 import storage_config from '../../modules/storage'
-import type { Plugin } from '../../plugin'
+import type { Adapter } from '../../adapter'
 
 export let testStorage: any = {}
-export const testPlugin: Plugin = () => ({
+export const testPlugin: Adapter = () => ({
   getValue(n, k) {
     if (!testStorage[n]) testStorage[n] = {}
     return testStorage[n][k] as any
@@ -21,7 +21,7 @@ export const testPlugin: Plugin = () => ({
 })
 
 const useTestEvm = defineEvmConfig({
-  plugin: testPlugin,
+  adapter: testPlugin,
 })
 const { config: testConfig } = useTestEvm()
 

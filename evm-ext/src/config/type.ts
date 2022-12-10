@@ -5,7 +5,7 @@ import type {
 } from '../modules/contracts/type'
 import type { StoresDefinition } from '../modules/store/type'
 import type { RpcDefinition } from '../modules/chain/type'
-import type { Plugin } from '../plugin'
+import type { Adapter } from '../adapter'
 
 export type EvmConfig<
   ContractsJSON extends ContractsJSONStruct = ContractsJSONStruct,
@@ -24,5 +24,5 @@ export type EvmConfig<
   readonly contracts?: Contracts
   /// stores
   readonly stores?: Stores
-  plugin: Plugin
+  adapter: Adapter
 }

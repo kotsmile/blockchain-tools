@@ -1,4 +1,4 @@
-import type { plugin } from 'evm-ext'
+import type { adapter } from 'evm-ext'
 
 import { useEvent } from './stores/event'
 
@@ -6,7 +6,7 @@ const stores = {
   event: useEvent,
 }
 
-export const vuePlugin: plugin.Plugin = () => ({
+export const vueAdapater: adapter.Adapter = () => ({
   getValue(n, k) {
     return stores[n]()[k]
   },
