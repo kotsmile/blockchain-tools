@@ -22,26 +22,25 @@ export const ankrRpc = (): RpcDefinition => {
   return (chainTag: ChainTag) => 'https://rpc.ankr.com' + ankrPath[chainTag] ?? ''
 }
 
-const goodRpcProvider = [ankrRpc()]
+// const goodRpcProvider = [ankrRpc()]
+// export const extraRpc = (indexes?: Partial<Record<ChainTag, number>>) => {
+//   return (chainTag: ChainTag) => {
+//     let index = 0
+//     if (indexes) {
+//       const possibleIndex = indexes[chainTag]
+//       if (possibleIndex !== undefined) index = possibleIndex
+//     }
 
-export const extraRpc = (indexes?: Partial<Record<ChainTag, number>>) => {
-  return (chainTag: ChainTag) => {
-    let index = 0
-    if (indexes) {
-      const possibleIndex = indexes[chainTag]
-      if (possibleIndex !== undefined) index = possibleIndex
-    }
+//     const rpcList = (extraRpcs as any)[chainTag] ?? []
 
-    const rpcList = (extraRpcs as any)[chainTag] ?? []
+//     for (const goodRpc of goodRpcProvider) {
+//       const rpc = goodRpc(chainTag)
+//       if (rpc) rpcList.push(rpc)
+//     }
 
-    for (const goodRpc of goodRpcProvider) {
-      const rpc = goodRpc(chainTag)
-      if (rpc) rpcList.push(rpc)
-    }
-
-    return index < rpcList.length ? rpcList[index] : ''
-  }
-}
+//     return index < rpcList.length ? rpcList[index] : ''
+//   }
+// }
 
 export const universalRpc = (): RpcDefinition => {
   const ankr = ankrRpc()

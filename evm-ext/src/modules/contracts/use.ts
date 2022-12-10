@@ -17,7 +17,7 @@ import type {
 
 import { getProvider_config } from '../chain/node'
 
-export type DefaultContract<T, D> = T extends BaseContract ? T : D
+export type DefaultContract<T, D> = T extends undefined ? D : T
 
 export type UseContracts<
   Contracts extends Record<string, ContractDefinition<any, any>>,
