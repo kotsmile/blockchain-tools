@@ -4,6 +4,7 @@ import { useEvent } from './stores/event'
 
 const stores = {
   event: useEvent,
+  wallet: {} as any,
 }
 
 export const vueAdapater: adapter.Adapter = () => ({
