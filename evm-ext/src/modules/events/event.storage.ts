@@ -3,7 +3,7 @@ import type { Events, CallbackFunction, EventType, Filter, RawEventType } from '
 
 import { log, emitMsg, toAfterEvent, toBeforeEvent } from './utils'
 
-import storage_config from '../storage'
+import storage_module from '../storage'
 
 export type Storage = {
   event: {
@@ -40,7 +40,7 @@ export const useEvents_config = (config: EvmConfig) => {
       await this._emit(toAfterEvent(event), args)
     },
     removeListener(listenerId: number) {
-      const { update } = storage_config(config)
+      const { update } = storage_module(config)
       update('event', 'listeners', (ls) => ls.filter((l) => l.id !== listenerId))
     },
     _addListener<Event extends EventType>(
@@ -49,7 +49,7 @@ export const useEvents_config = (config: EvmConfig) => {
       filters: Filter<Event>[] = [],
       once = false
     ): number {
-      const { update } = storage_config(config)
+      const { update } = storage_module(config)
       const listenerId = update('event', 'listenerId', (lId) => lId + 1)
       update('event', 'listeners', (l) => [
         ...l,
@@ -64,7 +64,7 @@ export const useEvents_config = (config: EvmConfig) => {
       return listenerId
     },
     async _emit<Event extends EventType>(event: Event, args: Events[Event]['args']) {
-      const { get } = storage_config(config)
+      const { get } = storage_module(config)
 
       const removeIds: number[] = []
       const listeners = get('event', 'listeners')
