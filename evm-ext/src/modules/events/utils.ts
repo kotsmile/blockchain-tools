@@ -20,13 +20,7 @@ export const emitMsg = <Event extends EventType>(
   amount: number
 ) => {
   console.log(
-    `%c${MODULE_LABEL}`,
-    `%c${event} x${amount}`,
-    `
-      color: black;
-      background: white;
-      font-weight: bold;
-    `,
+    `%c${MODULE_LABEL} ${event} x${amount}`,
     `
       color: white; 
       background: #B11B1B; 

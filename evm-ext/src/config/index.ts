@@ -24,10 +24,11 @@ export const defineEvmConfig = <
   return () => ({
     init: () => {
       initContracts(config)
-      initStore(config)
-      initEvents(config)
       initChain(config)
       initWallet(config)
+      initEvents(config)
+
+      initStore(config)
     },
     config,
     ...contracts_module(config),

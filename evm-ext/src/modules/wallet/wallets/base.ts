@@ -2,7 +2,7 @@ import { providers } from 'ethers'
 
 import type { ISigner } from '../../../utils'
 import type { ChainId } from '../../../utils/chain'
-import type wallets from '.'
+import type { wallets } from '.'
 
 export type ConnectFunction = (
   wallet: string,

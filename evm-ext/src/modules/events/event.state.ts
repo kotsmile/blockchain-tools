@@ -18,6 +18,8 @@ export type EventsState = {
   }
 }
 
+const THIS = (config: EvmConfig) => useEvents_config(config)()
+
 export const useEvents_config = (config: EvmConfig) => {
   return () => ({
     addListener<Event extends EventType>(
@@ -25,19 +27,19 @@ export const useEvents_config = (config: EvmConfig) => {
       callback: (args: Events[Event]['args']) => any,
       filters: Filter<Event>[] = []
     ): number {
-      return this._addListener(event, callback, filters)
+      return THIS(config)._addListener(event, callback, filters)
     },
     addListenerOnce<Event extends EventType>(
       event: Event,
       callback: (args: Events[Event]['args']) => any,
       filters: Filter<Event>[] = []
     ): number {
-      return this._addListener(event, callback, filters, true)
+      return THIS(config)._addListener(event, callback, filters, true)
     },
     async emit<Event extends RawEventType>(event: Event, args: Events[Event]['args']) {
-      await this._emit(toBeforeEvent(event), args)
-      await this._emit(event, args)
-      await this._emit(toAfterEvent(event), args)
+      await THIS(config)._emit(toBeforeEvent(event), args)
+      await THIS(config)._emit(event, args)
+      await THIS(config)._emit(toAfterEvent(event), args)
     },
     removeListener(listenerId: number) {
       const { update } = state_module(config)
@@ -50,7 +52,7 @@ export const useEvents_config = (config: EvmConfig) => {
       once = false
     ): number {
       const { update } = state_module(config)
-      const listenerId = update('event', 'listenerId', (lId) => lId ?? 1 + 1)
+      const listenerId = update('event', 'listenerId', (lId) => (lId ?? 1) + 1)
       update('event', 'listeners', (l) => [
         ...(l ?? []),
         {
@@ -84,7 +86,7 @@ export const useEvents_config = (config: EvmConfig) => {
       )
 
       emitMsg(event, args, listenersTriggered)
-      removeIds.forEach(this.removeListener)
+      removeIds.forEach(THIS(config).removeListener)
     },
   })
 }

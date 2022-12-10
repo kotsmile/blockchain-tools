@@ -7,5 +7,3 @@ export const wallets = {
   // native: Native,
   // trustwallet: TrustWallet,
 }
-
-export default { Metamask }
