@@ -1,7 +1,7 @@
 import type { EvmConfig } from '../../config/type'
 import type { Events, CallbackFunction, EventType, Filter, RawEventType } from './type'
 
-import { log, emitMsg, toAfterEvent, toBeforeEvent } from './utils'
+import { emitMsg, toAfterEvent, toBeforeEvent } from './utils'
 
 import state_module from '../state'
 
@@ -42,8 +42,8 @@ export const useEvents_config = (config: EvmConfig) => {
       await THIS(config)._emit(toAfterEvent(event), args)
     },
     removeListener(listenerId: number) {
-      const { update } = state_module(config)
-      update('event', 'listeners', (ls) => ls?.filter((l) => l.id !== listenerId) ?? [])
+      const state = state_module(config)
+      state.event.listeners = state.event.listeners.filter((l) => l.id !== listenerId)
     },
     _addListener<Event extends EventType>(
       event: Event,
@@ -51,25 +51,22 @@ export const useEvents_config = (config: EvmConfig) => {
       filters: Filter<Event>[] = [],
       once = false
     ): number {
-      const { update } = state_module(config)
-      const listenerId = update('event', 'listenerId', (lId) => (lId ?? 1) + 1)
-      update('event', 'listeners', (l) => [
-        ...(l ?? []),
-        {
-          id: listenerId,
-          event,
-          once,
-          callback,
-          filters,
-        },
-      ])
+      const state = state_module(config)
+      const listenerId = state.event.listenerId++
+      state.event.listeners.push({
+        id: listenerId,
+        event,
+        once,
+        callback,
+        filters,
+      })
       return listenerId
     },
     async _emit<Event extends EventType>(event: Event, args: Events[Event]['args']) {
-      const { get } = state_module(config)
+      const state = state_module(config)
 
       const removeIds: number[] = []
-      const listeners = get('event', 'listeners')
+      const listeners = state.event.listeners
 
       let listenersTriggered = 0
 

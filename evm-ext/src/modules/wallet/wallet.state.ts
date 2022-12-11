@@ -34,18 +34,18 @@ export const useWallet_config = (config: EvmConfig) => {
       login = true
     ) {
       if (!wallet || !chainId) return
-      const { set, update } = state_module(config)
+      const state = state_module(config)
 
       // if (this.preserveConnection) setPreservedConnection(this.walletType, login)
 
-      set('wallet', 'signer', () => signer ?? null)
-      set('wallet', 'wallet', wallet)
-      set('wallet', 'realChainId', chainId as ChainId)
+      state.wallet.signer = () => signer
+      state.wallet.wallet = wallet
+      state.wallet.realChainId = chainId as ChainId
 
       // if (this.chainIds.includes(chainId as ChainId)) this.chainId = chainId as ChainId
       // else useEvent().emit('errorChainId', { chainId })
 
-      set('wallet', 'login', login)
+      state.wallet.login = login
     },
     async connect(
       walletType: WalletType | null,
@@ -61,13 +61,13 @@ export const useWallet_config = (config: EvmConfig) => {
       const useEvents = useEvents_config(config)
 
       console.log(THIS(config).updateStoreState)
-      const { set, update, get } = state_module(config)
+      const state = state_module(config)
 
-      get('wallet', 'walletHandler')()?.clear()
+      state.wallet.walletHandler()?.clear()
 
       const walletHandler = new wallets[walletType](
         config.chainIds,
-        get('wallet', 'chainId'),
+        state.wallet.chainId,
         THIS(config).updateStoreState,
         (wallet) => {
           useEvents().emit('onWalletChange', { wallet })
@@ -84,7 +84,7 @@ export const useWallet_config = (config: EvmConfig) => {
         // storeSettings.options?.preventDefaultChangeChain
       )
 
-      set('wallet', 'walletType', walletType)
+      state.wallet.walletType = walletType
 
       // if (this.walletType === 'native') {
       //   ;(this.walletHandler as Native).initPrivateKey(privateKey ?? '')
@@ -92,7 +92,7 @@ export const useWallet_config = (config: EvmConfig) => {
 
       if (!(await walletHandler?.connect())) return
 
-      update('wallet', 'chainId', (oldChainId) => chainId ?? config.DEFAULT_CHAINID)
+      state.wallet.chainId = chainId ?? state.wallet.chainId
       // await this.loadAll({ init, login: true })
     },
   })

@@ -1,69 +1,59 @@
 import { expect } from 'chai'
 
 import { defineEvmConfig } from '../../config'
+
 import state_config from '../../modules/state'
+import type { State } from '../../modules/state'
+
 import type { Adapter } from '../../adapter'
 
-export let testState: any = {}
-export const testPlugin: Adapter = () => ({
-  getValue(n, k) {
-    if (!testState[n]) testState[n] = {}
-    return testState[n][k] as any
-  },
-  setValue(n, k, v) {
-    if (!testState[n]) testState[n] = {}
-    return (testState[n][k] = v)
-  },
-  updateValue(n, k, c) {
-    if (!testState[n]) testState[n] = {}
-    return (testState[n][k] = c(testState[n][k]))
+export let testState: any = {
+  wallet: {},
+}
+
+export const testAdapter: Adapter = () => ({
+  state: <any>{
+    wallet: new Proxy({} as State['wallet'], {
+      get: (_, k: keyof State['wallet']) => testState.wallet[k],
+      set: (_, k: keyof State['wallet'], v: string) => {
+        testState.wallet[k] = v
+        return true
+      },
+    }),
   },
 })
 
 const useTestEvm = defineEvmConfig({
-  adapter: testPlugin,
+  adapter: testAdapter,
 })
 const { config: testConfig } = useTestEvm()
 
 describe('State module', () => {
-  beforeEach(() => (testState = {}))
+  beforeEach(
+    () =>
+      (testState = {
+        wallet: {},
+      })
+  )
   it('should set value', () => {
-    const State = state_config(testConfig)
+    const state = state_config(testConfig)
 
-    const n = 'hello'
-    const k = 'world'
-    const v = 'test'
+    const n = 'wallet'
+    const k = 'wallet'
+    const v = '0xtest'
 
-    State.set<any, any, any>(n, k, v)
-
+    state[n][k] = v
     expect(testState[n][k]).eq(v)
   })
   it('should get value', () => {
-    const State = state_config(testConfig)
+    const state = state_config(testConfig)
 
-    const n = 'hello'
-    const k = 'world'
-    const v = 'test'
-
-    testState[n] = { [k]: v }
-
-    expect(State.get<any, any, any>(n, k)).eq(v)
-  })
-  it('should update value', () => {
-    const State = state_config(testConfig)
-
-    const n = 'hello'
-    const k = 'world'
-    const v = 'test'
-    const newV = 'test2'
+    const n = 'wallet'
+    const k = 'wallet'
+    const v = '0xtest'
 
     testState[n] = { [k]: v }
 
-    expect(
-      State.update<any, any, any>(n, k, (old) => {
-        if (old === v) return newV
-        return ''
-      })
-    ).eq(newV)
+    expect(state[n][k]).eq(v)
   })
 })
