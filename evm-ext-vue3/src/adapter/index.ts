@@ -7,5 +7,7 @@ export const vueAdapater: adapter.Adapter = () => ({
   state: {
     event: useEvent(),
     wallet: useWallet(),
+    // event: new Proxy({} as any, { get: () => {} }),
+    // wallet: new Proxy({} as any, { get: () => {} }),
   },
 })

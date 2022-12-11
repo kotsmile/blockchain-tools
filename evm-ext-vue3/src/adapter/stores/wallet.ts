@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import type { modules, utils } from 'evm-ext'
+import type { modules } from 'evm-ext'
 
 type WalletState = modules.wallet.WalletState['wallet']
 
