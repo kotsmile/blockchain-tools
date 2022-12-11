@@ -1,5 +1,6 @@
 import { providers } from 'ethers'
 
+import type { EvmConfig } from '../../../config/type'
 import type { ISigner } from '../../../utils'
 import type { ChainId } from '../../../utils/chain'
 import type { wallets } from '.'
@@ -31,6 +32,7 @@ export abstract class WalletHandler {
   public actual = true
 
   constructor(
+    public config: EvmConfig,
     public chainIds: readonly ChainId[],
     public defaultChainId: ChainId,
     public updateStoreState: UpdateStoreStateFunction,

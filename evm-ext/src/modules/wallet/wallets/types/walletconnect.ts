@@ -1,11 +1,13 @@
 import {
   ChainId,
   chainIds as allChainIds,
+  extraRpcs,
   getChainDescription,
   getChainHex,
   getChainName,
   getChainScanner,
 } from '../../../../utils/chain'
+import type { EvmConfig } from '../../../../config/type'
 
 import type {
   ChangeChainCallbackFunction,
@@ -15,13 +17,15 @@ import type {
 
 import { WalletHandler } from '../base'
 
-import WalletConnectProvider from '@walletconnect/web3-provider/dist/cjs'
+import WalletConnectProvider from '@walletconnect/web3-provider'
 import { keyOf, safe } from '../../../../utils'
+import { getRpc_config } from '../../../chain/node'
 
 export class Walletconnect extends WalletHandler {
   public appName!: string
 
   constructor(
+    public config: EvmConfig,
     public chainIds: readonly ChainId[],
     public defaultChainId: ChainId,
     public updateStoreState: UpdateStoreStateFunction,
@@ -31,6 +35,7 @@ export class Walletconnect extends WalletHandler {
     public preventDefaultChangeChain?: boolean
   ) {
     super(
+      config,
       chainIds,
       defaultChainId,
       updateStoreState,
@@ -40,8 +45,14 @@ export class Walletconnect extends WalletHandler {
       preventDefaultChangeChain
     )
     const rpc = {} as { [key: number]: string }
-    for (const chainTag of keyOf(allChainIds)) rpc[allChainIds[chainTag]] = ''
-    // TODO: rpc[allChainIds[chainTag]] = node(chainTag).rpc
+    // for (const chainTag of keyOf(allChainIds)) rpc[allChainIds[chainTag]] = ''
+
+    for (const chainTag of keyOf(allChainIds)) {
+      const chainId =
+        `${allChainIds[chainTag]}` as `${typeof allChainIds[typeof chainTag]}`
+
+      rpc[parseInt(chainId)] = getRpc_config(config)(chainId)
+    }
 
     console.log({ rpc })
 
@@ -51,11 +62,13 @@ export class Walletconnect extends WalletHandler {
       qrcode: true,
       pollingInterval: 150000,
     })
+    // })
   }
 
   async connect(): Promise<boolean> {
     try {
-      await this.nativeProvider.enable().catch(async (error: any) => {})
+      await this.nativeProvider.enable().catch(console.error)
+
       this.appName = this.nativeProvider.wc._peerMeta.name
       await this.updateProviderState()
 
@@ -155,7 +168,7 @@ export class Walletconnect extends WalletHandler {
           symbol: getChainDescription(chainId).symbol,
           decimals: 18,
         },
-        // rpcUrls: [getChainRpc(chainId)], TODO: rpc
+        rpcUrls: [getRpc_config(this.config)(chainId)],
         blockExplorerUrls: getChainScanner(chainId) ? [getChainScanner(chainId)] : null,
       }
       const resp = await this.nativeProvider.request({

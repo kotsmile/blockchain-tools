@@ -1,3 +1,4 @@
+import type { EvmConfig } from '../../../../config/type'
 import {
   ChainId,
   getChainDescription,
@@ -5,6 +6,7 @@ import {
   getChainName,
   getChainScanner,
 } from '../../../../utils/chain'
+import { getRpc_config } from '../../../chain/node'
 
 import type {
   ChangeChainCallbackFunction,
@@ -16,6 +18,7 @@ import { WalletHandler } from '../base'
 
 export class Metamask extends WalletHandler {
   constructor(
+    public config: EvmConfig,
     public chainIds: readonly ChainId[],
     public defaultChainId: ChainId,
     public updateStoreState: UpdateStoreStateFunction,
@@ -25,6 +28,7 @@ export class Metamask extends WalletHandler {
     public preventDefaultChangeChain?: boolean
   ) {
     super(
+      config,
       chainIds,
       defaultChainId,
       updateStoreState,
@@ -99,7 +103,7 @@ export class Metamask extends WalletHandler {
           symbol: getChainDescription(chainId).symbol,
           decimals: 18,
         },
-        // rpcUrls: [getChainDescription(chainId).rpc], TODO: rpc
+        rpcUrls: [getRpc_config(this.config)(chainId)],
         blockExplorerUrls: getChainScanner(chainId) ? [getChainScanner(chainId)] : null,
       }
       await this.nativeProvider.request?.({

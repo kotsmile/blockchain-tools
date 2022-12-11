@@ -61,9 +61,10 @@ export const useWallet_config = (config: EvmConfig) => {
       const useEvents = useEvents_config(config)
 
       const state = state_module(config)
-      state.wallet.walletHandler()?.clear()
+      if (state.wallet.walletHandler) state.wallet.walletHandler()?.clear()
 
       const walletHandler = new wallets[walletType](
+        config,
         config.chainIds,
         state.wallet.chainId,
         THIS(config).updateStoreState,

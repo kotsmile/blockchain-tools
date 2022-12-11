@@ -22,13 +22,13 @@ export const defineEvmConfig = <
   config: EvmConfig<ContractsJSON, ChainIds, DefaultChainId, Contracts, Stores>
 ) => {
   return () => ({
-    init: () => {
-      initContracts(config)
-      initChain(config)
-      initWallet(config)
-      initEvents(config)
+    init: async () => {
+      await initContracts(config)
+      await initChain(config)
+      await initWallet(config)
+      await initEvents(config)
 
-      initStore(config)
+      await initStore(config)
     },
     config,
     ...contracts_module(config),
