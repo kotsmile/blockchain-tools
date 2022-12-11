@@ -1,8 +1,6 @@
-import { piniaStore } from './store'
-export { piniaStore }
+export { piniaStore } from './store'
+export { vueAdapater } from './adapter'
+export type { EvmState, EvmActions } from './store/type'
 
-import { vueAdapater } from './adapter'
-export { vueAdapater }
-
-import type { EvmState, EvmActions } from './store/type'
-export { EvmState, EvmActions }
+export { useEvent } from './adapter/stores/event'
+export { useWallet } from './adapter/stores/wallet'
