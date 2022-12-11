@@ -1,6 +1,6 @@
 {
   "name": "evm-ext-vue3",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Adapter of evm-ext for Vue3",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -17,11 +17,13 @@
     "type": "tsc --noEmit",
     "build": "rm -rf ./lib && tsc",
     "format": "prettier --write \"./src/**/*.{js,ts,jsx,tsx,vue}\"",
-    "lint": "prettier --check \"./src/**/*.{js,ts,jsx,tsx,vue}\""
+    "lint": "prettier --check \"./src/**/*.{js,ts,jsx,tsx,vue}\"",
+    "prepare": "yarn lint && yarn build"
   },
   "license": "MIT",
   "dependencies": {
     "ethers": "5.5.3",
+    "evm-ext": "^0.0.5",
     "pinia": "^2.0.28",
     "vue": "^3.2.45"
   },
