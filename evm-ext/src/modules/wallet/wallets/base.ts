@@ -60,7 +60,6 @@ export abstract class WalletHandler {
       chainId: this.chainId,
     })
   }
-
   async changeChainHandler(chainId: number) {
     if (!this.actual) return
     this.nativeProvider.once(events.CHANGE_CHAIN, this.changeChainHandler?.bind(this))
@@ -75,7 +74,6 @@ export abstract class WalletHandler {
 
     this.changeChainCallback?.(chainId.toString())
   }
-
   async changeWalletHanlder(accounts: string[]) {
     if (!this.actual) return
     this.nativeProvider.once(events.CHANGE_WALLET, this.changeWalletHanlder?.bind(this))
@@ -86,19 +84,15 @@ export abstract class WalletHandler {
     }
     this.changeWalletCallback?.(accounts[0])
   }
-
   clear() {
     this.actual = false
   }
-
   async getSigner(): Promise<ISigner> {
     return this.provider?.getSigner() ?? null
   }
-
   async getChainId(): Promise<string | null> {
     return (await this.provider?.getNetwork())?.chainId.toString() ?? null
   }
-
   async getAddress(): Promise<string | null> {
     return (await this.getSigner())?.getAddress() ?? null
   }
