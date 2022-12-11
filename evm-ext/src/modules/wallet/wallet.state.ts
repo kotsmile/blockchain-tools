@@ -15,7 +15,7 @@ export type WalletState = {
     chainId: ChainId
     realChainId: ChainId | null
     chainIds: ChainId[]
-    DEFAULT_CHAINID: string
+    DEFAULT_CHAINID: ChainId
     login: boolean
     loading: boolean
     walletType: WalletType | null
