@@ -4,15 +4,15 @@ import {
   getChainHex,
   getChainName,
   getChainScanner,
-} from '../../../utils/chain'
+} from '../../../../utils/chain'
 
 import type {
   ChangeChainCallbackFunction,
   ChangeWalletCallbackFunction,
   UpdateStoreStateFunction,
-} from './base'
+} from '../base'
 
-import { WalletHandler } from './base'
+import { WalletHandler } from '../base'
 
 export class Metamask extends WalletHandler {
   constructor(

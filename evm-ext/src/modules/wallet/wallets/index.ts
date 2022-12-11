@@ -1,4 +1,4 @@
-import { Metamask } from './metamask'
+import { Metamask } from './types/metamask'
 
 export const wallets = {
   metamask: Metamask,
