@@ -3,4 +3,5 @@
 ## TODO
 
 - [.] Multicall
-- [.] mapContractSafe
+- [.] `mapContractSafe`
+- [.] Tests

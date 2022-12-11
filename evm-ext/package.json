@@ -18,8 +18,7 @@
     "type": "tsc --noEmit",
     "build": "rm -rf ./lib && tsc",
     "format": "prettier --write \"./src/**/*.{js,ts,jsx,tsx,vue}\"",
-    "lint": "prettier --check \"./src/**/*.{js,ts,jsx,tsx,vue}\"",
-    "prepare": "yarn test && yarn lint && yarn build"
+    "lint": "prettier --check \"./src/**/*.{js,ts,jsx,tsx,vue}\""
   },
   "license": "MIT",
   "dependencies": {
