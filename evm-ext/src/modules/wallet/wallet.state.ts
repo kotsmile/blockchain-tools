@@ -60,9 +60,7 @@ export const useWallet_config = (config: EvmConfig) => {
 
       const useEvents = useEvents_config(config)
 
-      console.log(THIS(config).updateStoreState)
       const state = state_module(config)
-
       state.wallet.walletHandler()?.clear()
 
       const walletHandler = new wallets[walletType](

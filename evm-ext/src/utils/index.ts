@@ -1,9 +1,7 @@
-import * as rpc from './chain/rpc'
-import * as chain from './chain'
-
-import type { INotNullSigner, ISigner } from './chain/type'
-
-export { rpc, ISigner, INotNullSigner, chain }
+export * as rpc from './chain/rpc'
+export * as chain from './chain'
+export type { INotNullSigner, ISigner } from './chain/type'
+export { safe, safeRead, safeWrite } from './safe'
 
 export const keyOf = <O extends Record<string | number | symbol, any>>(o: O) => {
   return Object.keys(o) as (keyof O)[]

@@ -24,7 +24,7 @@ export const testAdapter: Adapter = () => ({
 })
 
 const useTestEvm = defineEvmConfig({
-  adapterr: testAdapter,
+  adapter: testAdapter,
 })
 const { config: testConfig } = useTestEvm()
 

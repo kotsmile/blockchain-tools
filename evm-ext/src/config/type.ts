@@ -24,5 +24,5 @@ export type EvmConfig<
   readonly contracts?: Contracts
   /// stores
   readonly stores?: Stores
-  adapterr: Adapter
+  adapter: Adapter
 }
