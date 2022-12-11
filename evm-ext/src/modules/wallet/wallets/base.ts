@@ -5,7 +5,7 @@ import type { EvmConfig } from '../../../config/type'
 import type { ISigner } from '../../../utils'
 import type { ChainId } from '../../../utils/chain'
 
-import events from './events'
+import { events } from './utils'
 
 export type ConnectFunction = (
   wallet: string,
@@ -63,7 +63,7 @@ export abstract class WalletHandler {
 
   async changeChainHandler(chainId: number) {
     if (!this.actual) return
-    this.nativeProvider.once(events.CHANGE_WALLET, this.changeChainHandler?.bind(this))
+    this.nativeProvider.once(events.CHANGE_CHAIN, this.changeChainHandler?.bind(this))
     chainId = parseInt(chainId.toString())
     if (this.chainId && parseInt(this.chainId) === chainId) return
 
@@ -78,7 +78,7 @@ export abstract class WalletHandler {
 
   async changeWalletHanlder(accounts: string[]) {
     if (!this.actual) return
-    this.nativeProvider.once(events.CHANGE_ACCOUNT, this.changeWalletHanlder?.bind(this))
+    this.nativeProvider.once(events.CHANGE_WALLET, this.changeWalletHanlder?.bind(this))
 
     if (accounts[0] === this.address) return
     if (!this.config.options?.preventDefaultChangeWallet) {

@@ -1,10 +1,11 @@
 import { Metamask } from './types/metamask'
 import { Walletconnect } from './types/walletconnect'
+import { CoinBase } from './types/coinbase'
 
 export const wallets = {
   metamask: Metamask,
   walletconnect: Walletconnect,
-  // coinbase: CoinBase,
+  coinbase: CoinBase,
   // native: Native,
   // trustwallet: TrustWallet,
 }
