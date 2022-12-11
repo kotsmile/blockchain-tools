@@ -6,6 +6,8 @@ import type {
 import type { StoresDefinition } from '../modules/store/type'
 import type { EvmConfig } from './type'
 
+import { log } from './utils'
+
 import contracts_module, { init as initContracts } from '../modules/contracts'
 import events_module, { init as initEvents } from '../modules/events'
 import chain_module, { init as initChain } from '../modules/chain'
@@ -23,6 +25,8 @@ export const defineEvmConfig = <
 ) => {
   return () => ({
     init: async () => {
+      log('Init modules')
+
       await initContracts(config)
       await initChain(config)
       await initWallet(config)

@@ -11,6 +11,7 @@ import type { WalletType } from './wallets'
 
 import { useEvents_config } from '../events/event.state'
 import type { Bytes } from 'ethers'
+import { log } from './utils'
 
 export type WalletState = {
   wallet: {
@@ -42,6 +43,8 @@ export const useWallet_config = (config: EvmConfig) => {
       state.wallet.login = login
     },
     async connect(walletType: WalletType | null, chainId?: ChainId) {
+      log(`Connect to "${walletType}"`)
+
       if (!walletType) return
 
       const useEvents = useEvents_config(config)

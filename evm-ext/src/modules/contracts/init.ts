@@ -1,2 +1,5 @@
 import type { EvmConfig } from '../../config/type'
-export const init = async (config: EvmConfig) => {}
+import { log } from './utils'
+export const init = async (config: EvmConfig) => {
+  log('Initiated')
+}

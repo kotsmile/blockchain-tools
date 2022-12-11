@@ -20,4 +20,6 @@ export const init = async (config: EvmConfig) => {
       else addListener(lifecycle, store[onLifecycle(lifecycle)])
     }
   }
+
+  log('Initiated')
 }

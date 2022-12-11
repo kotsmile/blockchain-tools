@@ -1,6 +1,7 @@
 import type { EvmConfig } from '../../config/type'
 
 import state_module from '../state'
+import { log } from './utils'
 
 export const init = async (config: EvmConfig) => {
   const state = state_module(config)
@@ -8,4 +9,6 @@ export const init = async (config: EvmConfig) => {
   // initiate state
   state.event.listenerId = 1
   state.event.listeners = []
+
+  log('Initiated')
 }

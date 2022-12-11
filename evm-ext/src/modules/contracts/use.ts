@@ -16,6 +16,7 @@ import type {
 } from './type'
 
 import { getProvider_config } from '../chain/node'
+import { warn } from './utils'
 
 export type DefaultContract<T, D> = T extends undefined ? D : T
 
@@ -65,13 +66,17 @@ export const useContracts_config = <
   config: EvmConfig<ContractsJSON, ChainIds, DefaultChainId, Contracts>
 ) => {
   return (signer?: INotNullSigner) => {
-    if (!config.DEFAULT_CHAINID)
+    if (!config.DEFAULT_CHAINID) {
+      warn('No `DEFAULT_CHAINID` in config')
       return {} as UseContracts<Contracts['shared'], ChainIds[number]>
+    }
 
     const chainId = config.DEFAULT_CHAINID // TODO: get actual chainId from web3 store like
 
-    if (!config.contractsJSON)
+    if (!config.contractsJSON) {
+      warn('No `contractsJSON` in config')
       return {} as UseContracts<Contracts['shared'], ChainIds[number]>
+    }
 
     const contractsJSON = config.contractsJSON
     const allContracts = contractsJSON[chainId][0].contracts ?? {}
@@ -98,7 +103,8 @@ export const useContractsOnChain_config = <
     chainId: CurrentChainId,
     signer?: INotNullSigner
   ) => {
-    if (!config.contractsJSON)
+    if (!config.contractsJSON) {
+      warn('No `contractsJSON` in config')
       return {} as UseContracts<
         Cast<
           Contracts['on'][CurrentChainId],
@@ -106,6 +112,7 @@ export const useContractsOnChain_config = <
         >,
         ChainIds[number]
       >
+    }
 
     const contractsJSON = config.contractsJSON
     const allContracts = contractsJSON[chainId][0].contracts
