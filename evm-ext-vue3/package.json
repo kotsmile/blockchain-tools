@@ -1,6 +1,6 @@
 {
   "name": "evm-ext-vue3",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Adapter of evm-ext for Vue3",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -24,6 +24,7 @@
   "dependencies": {
     "ethers": "5.5.3",
     "evm-ext": "^0.0.7",
+    "evm-ext-vue3": "^0.0.8",
     "pinia": "^2.0.28",
     "vue": "^3.2.45"
   },
