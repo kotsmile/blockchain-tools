@@ -1933,6 +1933,16 @@ events@^3.0.0:
   resolved "https://registry.yarnpkg.com/events/-/events-3.3.0.tgz#31a95ad0a924e2d2c419a813aeb2c4e878ea7400"
   integrity sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==
 
+evm-ext-vue3@^0.0.8:
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/evm-ext-vue3/-/evm-ext-vue3-0.0.8.tgz#37943f1865a5d8dd593f58459413cbac37de4fd7"
+  integrity sha512-YrGkI3TYAXOohPzbZaob/NQ7sMSrqg46stOUCV5bPd51CjVyDY2hF9J2wwRBlTb14C5IWSz06h/+30r8ynHVmQ==
+  dependencies:
+    ethers "5.5.3"
+    evm-ext "^0.0.7"
+    pinia "^2.0.28"
+    vue "^3.2.45"
+
 evm-ext@^0.0.7:
   version "0.0.7"
   resolved "https://registry.yarnpkg.com/evm-ext/-/evm-ext-0.0.7.tgz#447d10440d5d5a8c5a08c8777cf21f214095a4a8"
