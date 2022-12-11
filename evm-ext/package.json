@@ -1,6 +1,6 @@
 {
   "name": "evm-ext",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Tools for interaction with contracts",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -18,7 +18,8 @@
     "type": "tsc --noEmit",
     "build": "rm -rf ./lib && tsc",
     "format": "prettier --write \"./src/**/*.{js,ts,jsx,tsx,vue}\"",
-    "lint": "prettier --check \"./src/**/*.{js,ts,jsx,tsx,vue}\""
+    "lint": "prettier --check \"./src/**/*.{js,ts,jsx,tsx,vue}\"",
+    "prepare": "yarn test && yarn lint && yarn build"
   },
   "license": "MIT",
   "dependencies": {
