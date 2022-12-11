@@ -17,5 +17,7 @@ export type {
   ConnectFunction,
   UpdateStoreStateFunction,
   WalletHandler,
-  WalletType,
 } from './wallets/base'
+
+export type { WalletType } from './wallets'
+export { wallets } from './wallets'

@@ -23,9 +23,7 @@ export class Metamask extends WalletHandler {
     public defaultChainId: ChainId,
     public updateStoreState: UpdateStoreStateFunction,
     public changeWalletCallback?: ChangeWalletCallbackFunction,
-    public changeChainCallback?: ChangeChainCallbackFunction,
-    public preventDefaultChangeWallet?: boolean,
-    public preventDefaultChangeChain?: boolean
+    public changeChainCallback?: ChangeChainCallbackFunction
   ) {
     super(
       config,
@@ -33,9 +31,7 @@ export class Metamask extends WalletHandler {
       defaultChainId,
       updateStoreState,
       changeWalletCallback,
-      changeChainCallback,
-      preventDefaultChangeWallet,
-      preventDefaultChangeChain
+      changeChainCallback
     )
     const ehtProvider = (window as any).ethereum
     if (ehtProvider.providers)
@@ -63,7 +59,7 @@ export class Metamask extends WalletHandler {
 
       if (
         !(this.chainIds as string[]).includes(this.chainId) &&
-        !this.preventDefaultChangeChain
+        !this.config.options?.preventDefaultChangeChain
       ) {
         await this.switchChain(this.defaultChainId)
       }

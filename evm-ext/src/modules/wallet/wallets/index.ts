@@ -8,3 +8,5 @@ export const wallets = {
   // native: Native,
   // trustwallet: TrustWallet,
 }
+
+export type WalletType = keyof typeof wallets

@@ -6,6 +6,7 @@ import type {
 import type { StoresDefinition } from '../modules/store/type'
 import type { RpcDefinition } from '../modules/chain/type'
 import type { Adapter } from '../adapter'
+import type { Options } from '../modules/wallet/type'
 
 export type EvmConfig<
   ContractsJSON extends ContractsJSONStruct = ContractsJSONStruct,
@@ -25,4 +26,5 @@ export type EvmConfig<
   /// stores
   readonly stores?: Stores
   adapter: Adapter
+  options?: Options
 }

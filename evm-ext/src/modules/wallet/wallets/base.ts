@@ -1,9 +1,11 @@
 import { providers } from 'ethers'
 
 import type { EvmConfig } from '../../../config/type'
+
 import type { ISigner } from '../../../utils'
 import type { ChainId } from '../../../utils/chain'
-import type { wallets } from '.'
+
+import events from './events'
 
 export type ConnectFunction = (
   wallet: string,
@@ -14,14 +16,14 @@ export type ConnectFunction = (
 
 export type ChangeWalletCallbackFunction = (wallet: string) => void
 export type ChangeChainCallbackFunction = (chainId: string) => void
-export type WalletType = keyof typeof wallets
 
-export type UpdateStoreStateFunction = (
-  signer: ISigner,
-  wallet: string | null,
-  chainId: string | null,
+export type UpdateParams = {
+  signer: ISigner
+  wallet: string | null
+  chainId: string | null
   login?: boolean
-) => Promise<void>
+}
+export type UpdateStoreStateFunction = (params: UpdateParams) => Promise<void>
 
 export abstract class WalletHandler {
   public provider: providers.Web3Provider | providers.JsonRpcProvider | null = null
@@ -37,9 +39,7 @@ export abstract class WalletHandler {
     public defaultChainId: ChainId,
     public updateStoreState: UpdateStoreStateFunction,
     public changeWalletCallback?: ChangeWalletCallbackFunction,
-    public changeChainCallback?: ChangeChainCallbackFunction,
-    public preventDefaultChangeWallet?: boolean,
-    public preventDefaultChangeChain?: boolean
+    public changeChainCallback?: ChangeChainCallbackFunction
   ) {}
 
   abstract connect(): Promise<boolean>
@@ -49,35 +49,39 @@ export abstract class WalletHandler {
 
   async updateProviderState() {
     this.provider = new providers.Web3Provider(this.nativeProvider)
+
     this.signer = await this.getSigner()
     this.address = await this.getAddress()
     this.chainId = await this.getChainId()
-    await this.updateStoreState(this.signer, this.address, this.chainId)
+
+    await this.updateStoreState({
+      signer: this.signer,
+      wallet: this.address,
+      chainId: this.chainId,
+    })
   }
 
   async changeChainHandler(chainId: number) {
     if (!this.actual) return
-    this.nativeProvider.once('chainChanged', this.changeChainHandler?.bind(this))
+    this.nativeProvider.once(events.CHANGE_WALLET, this.changeChainHandler?.bind(this))
     chainId = parseInt(chainId.toString())
-
     if (this.chainId && parseInt(this.chainId) === chainId) return
 
-    if (!this.preventDefaultChangeChain) {
-      // default behavior
+    if (!this.config.options?.preventDefaultChangeChain) {
       await this.updateProviderState()
-
       if (!this.chainIds.includes(chainId.toString() as ChainId))
         return await this.switchChain(this.defaultChainId)
     }
+
     this.changeChainCallback?.(chainId.toString())
   }
 
   async changeWalletHanlder(accounts: string[]) {
     if (!this.actual) return
-    this.nativeProvider.once('accountsChanged', this.changeWalletHanlder?.bind(this))
+    this.nativeProvider.once(events.CHANGE_ACCOUNT, this.changeWalletHanlder?.bind(this))
 
     if (accounts[0] === this.address) return
-    if (!this.preventDefaultChangeWallet) {
+    if (!this.config.options?.preventDefaultChangeWallet) {
       await this.updateProviderState()
     }
     this.changeWalletCallback?.(accounts[0])

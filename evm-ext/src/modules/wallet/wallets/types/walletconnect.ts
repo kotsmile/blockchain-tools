@@ -30,9 +30,7 @@ export class Walletconnect extends WalletHandler {
     public defaultChainId: ChainId,
     public updateStoreState: UpdateStoreStateFunction,
     public changeWalletCallback?: ChangeWalletCallbackFunction,
-    public changeChainCallback?: ChangeChainCallbackFunction,
-    public preventDefaultChangeWallet?: boolean,
-    public preventDefaultChangeChain?: boolean
+    public changeChainCallback?: ChangeChainCallbackFunction
   ) {
     super(
       config,
@@ -40,9 +38,7 @@ export class Walletconnect extends WalletHandler {
       defaultChainId,
       updateStoreState,
       changeWalletCallback,
-      changeChainCallback,
-      preventDefaultChangeWallet,
-      preventDefaultChangeChain
+      changeChainCallback
     )
     const rpc = {} as { [key: number]: string }
     // for (const chainTag of keyOf(allChainIds)) rpc[allChainIds[chainTag]] = ''
@@ -76,7 +72,7 @@ export class Walletconnect extends WalletHandler {
 
       if (
         !(this.chainIds as string[]).includes(this.chainId) &&
-        !this.preventDefaultChangeChain
+        !this.config.options?.preventDefaultChangeChain
       ) {
         await this.switchChain(this.defaultChainId)
       }
@@ -86,7 +82,12 @@ export class Walletconnect extends WalletHandler {
 
       const disconnectHandler = async () => {
         if (!this.actual) return
-        this.updateStoreState(null, '', this.defaultChainId, false)
+        this.updateStoreState({
+          signer: null,
+          wallet: '',
+          chainId: this.defaultChainId,
+          login: false,
+        })
         this.nativeProvider.once('disconnect', async () => await disconnectHandler())
       }
 
@@ -101,7 +102,12 @@ export class Walletconnect extends WalletHandler {
   clear() {
     super.clear()
     this.nativeProvider.removeListener('disconnect', async () => {
-      this.updateStoreState(null, '', this.defaultChainId, false)
+      this.updateStoreState({
+        signer: null,
+        wallet: '',
+        chainId: this.defaultChainId,
+        login: false,
+      })
     })
   }
 

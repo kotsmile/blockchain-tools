@@ -17,3 +17,13 @@ export const capitalize = <T extends string>(a: T): Capitalize<T> => {
 
 export const concat = <A extends string, B extends string>(a: A, b: B) =>
   `${a}${b}` as `${A}${B}`
+
+export const wrap =
+  <T>(v: T): (() => T) =>
+  () =>
+    v
+
+export const unwrap = <T extends () => any>(f: T): ReturnType<T> => f()
+
+export type Wrap<T> = ReturnType<typeof wrap<T>>
+export type Unwrap<T extends () => any> = ReturnType<typeof unwrap<T>>
