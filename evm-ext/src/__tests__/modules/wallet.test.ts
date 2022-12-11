@@ -22,9 +22,9 @@ export const testAdapter: Adapter = () => ({
         return true
       },
     }),
-    event: new Proxy({} as State['event'], {
-      get: (_, k: keyof State['event']) => testState.event[k],
-      set: (_, k: keyof State['event'], v: string) => {
+    events: new Proxy({} as State['events'], {
+      get: (_, k: keyof State['events']) => testState.event[k],
+      set: (_, k: keyof State['events'], v: string) => {
         testState.event[k] = v
         return true
       },

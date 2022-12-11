@@ -7,8 +7,8 @@ export const init = async (config: EvmConfig) => {
   const state = state_module(config)
 
   // initiate state
-  state.event.listenerId = 1
-  state.event.listeners = []
+  state.events.listenerId = 1
+  state.events.listeners = []
 
   log('Initiated')
 }

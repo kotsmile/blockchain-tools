@@ -6,7 +6,7 @@ import { emitMsg, toAfterEvent, toBeforeEvent } from './utils'
 import state_module from '../state'
 
 export type EventsState = {
-  event: {
+  events: {
     listeners: {
       id: number
       event: EventType
@@ -43,7 +43,7 @@ export const useEvents_config = (config: EvmConfig) => {
     },
     removeListener(listenerId: number) {
       const state = state_module(config)
-      state.event.listeners = state.event.listeners.filter((l) => l.id !== listenerId)
+      state.events.listeners = state.events.listeners.filter((l) => l.id !== listenerId)
     },
     _addListener<Event extends EventType>(
       event: Event,
@@ -52,8 +52,8 @@ export const useEvents_config = (config: EvmConfig) => {
       once = false
     ): number {
       const state = state_module(config)
-      const listenerId = state.event.listenerId++
-      state.event.listeners.push({
+      const listenerId = state.events.listenerId++
+      state.events.listeners.push({
         id: listenerId,
         event,
         once,
@@ -66,7 +66,7 @@ export const useEvents_config = (config: EvmConfig) => {
       const state = state_module(config)
 
       const removeIds: number[] = []
-      const listeners = state.event.listeners
+      const listeners = state.events.listeners
 
       let listenersTriggered = 0
 

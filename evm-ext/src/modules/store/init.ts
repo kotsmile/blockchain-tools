@@ -8,18 +8,22 @@ import { log, onLifecycle } from './utils'
 
 export const init = async (config: EvmConfig) => {
   const { stores } = config
-  if (!stores) return
 
   const useEvents = useEvents_config(config)
-  const { addListener, addListenerOnce } = useEvents()
+  const { addListener, addListenerOnce, emit } = useEvents()
 
-  for (const [name, store] of entries(stores)) {
-    log(`Initiate ${name} store`)
-    for (const lifecycle of storeLifecycles) {
-      if (lifecycle === 'init') addListenerOnce(lifecycle, store[onLifecycle(lifecycle)])
-      else addListener(lifecycle, store[onLifecycle(lifecycle)])
+  if (stores) {
+    for (const [name, store] of entries(stores)) {
+      log(`Initiate ${name} store`)
+      for (const lifecycle of storeLifecycles) {
+        if (lifecycle === 'init')
+          addListenerOnce(lifecycle, store[onLifecycle(lifecycle)])
+        else addListener(lifecycle, store[onLifecycle(lifecycle)])
+      }
     }
   }
 
   log('Initiated')
+
+  await emit('init', {})
 }
