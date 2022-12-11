@@ -1,5 +1,5 @@
 import type { EvmConfig } from '../../config/type'
-import { ISigner, safeRead, unwrap, Wrap, wrap } from '../../utils'
+import { ISigner, safeRead, unwrap, Wrap, wrap, chain } from '../../utils'
 import type { ChainId } from '../../utils/chain'
 
 import type { UpdateParams, WalletHandler } from './wallets/base'
@@ -57,12 +57,12 @@ export const useWallet_config = (config: EvmConfig) => {
         THIS(config).updateStoreState,
         (wallet) => {
           useEvents().emit('onWalletChange', { wallet })
-          // if (storeSettings.options?.updateOnWalletChange) this.loadAll({ login: true })
+          if (config.options?.updateOnWalletChange) this.loadAll({ login: true })
         },
         (chainId) => {
           useEvents().emit('onChainChange', { chainId, natural: true })
-          // if (storeSettings.options?.updateOnChainChange)
-          //   this.loadAll({ init: true, login: true })
+          if (config.options?.updateOnChainChange)
+            this.loadAll({ init: true, login: true })
         }
       )
 
@@ -74,12 +74,8 @@ export const useWallet_config = (config: EvmConfig) => {
     async loadAll({ init = true, login = true }: { init?: boolean; login?: boolean }) {
       const { emit } = useEvents_config(config)()
 
-      if (init) {
-        await emit('init', {})
-      }
-      if (login) {
-        await emit('login', {})
-      }
+      if (init) await emit('init', {})
+      if (login) await emit('login', {})
 
       await emit('final', {})
     },
