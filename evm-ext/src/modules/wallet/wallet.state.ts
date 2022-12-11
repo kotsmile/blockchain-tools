@@ -1,5 +1,5 @@
 import type { EvmConfig } from '../../config/type'
-import { ISigner, unwrap, Wrap, wrap } from '../../utils'
+import { ISigner, safeRead, unwrap, Wrap, wrap } from '../../utils'
 import type { ChainId } from '../../utils/chain'
 
 import type { UpdateParams, WalletHandler } from './wallets/base'
@@ -10,6 +10,7 @@ import { wallets } from './wallets'
 import type { WalletType } from './wallets'
 
 import { useEvents_config } from '../events/event.state'
+import type { Bytes } from 'ethers'
 
 export type WalletState = {
   wallet: {
@@ -69,6 +70,54 @@ export const useWallet_config = (config: EvmConfig) => {
       if (!(await walletHandler?.connect())) return
 
       state.wallet.chainId = chainId ?? state.wallet.chainId
+    },
+    async loadAll({ init = true, login = true }: { init?: boolean; login?: boolean }) {
+      const { emit } = useEvents_config(config)()
+
+      if (init) {
+        await emit('init', {})
+      }
+      if (login) {
+        await emit('login', {})
+      }
+
+      await emit('final', {})
+    },
+    async signMessage(data: string | Bytes): Promise<string | null> {
+      const state = state_module(config)
+
+      if (state.wallet.login) {
+        const signedMessage = await safeRead<string | null>(
+          unwrap(state.wallet.signer)!.signMessage(data),
+          null
+        )
+        return signedMessage
+      }
+      return null
+    },
+    async switchChain(chainId: ChainId): Promise<boolean> {
+      const { emit } = useEvents_config(config)()
+      const state = state_module(config)
+
+      const result = Boolean(
+        await unwrap(state.wallet.walletHandler)?.switchChain(chainId)
+      )
+      if (result) emit('onChainChange', { chainId, natural: false })
+      return result
+    },
+    async disconnect(): Promise<boolean> {
+      const { _emit } = useEvents_config(config)()
+      const state = state_module(config)
+
+      await _emit('beforeLogout', {})
+      state.wallet.login = false
+      state.wallet.wallet = ''
+      await _emit('logout', {})
+
+      // setPreservedConnection(this.walletType, false)
+
+      await _emit('afterLogout', {})
+      return Boolean(await unwrap(state.wallet.walletHandler)?.disconnect())
     },
   })
 }
