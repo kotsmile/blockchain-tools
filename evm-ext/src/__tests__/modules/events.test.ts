@@ -2,7 +2,7 @@ import type { Adapter } from '../../adapter'
 import { defineEvmConfig } from '../../config'
 
 describe('Events Module', () => {
-  it.only('should trigger "init" event on init()', function (done) {
+  it('should trigger "init" event on init()', function (done) {
     let testState: any = {
       wallet: {},
       events: {},

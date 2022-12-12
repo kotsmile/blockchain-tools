@@ -160,3 +160,12 @@ async function main() {
 - `safe` - make safe async call and returns `[response, error]`
 - `safeRead` - make safe async read call to contract with default value, if call is success returns `response` otherwise `defaultValue`
 - `safeWrite` - make safe async write call to contract with auto `tx.wait()` and returns `[tx, rpt]` - Transaction object and Reciept object from `ethers`
+
+## Lifecycles
+
+`evm-ext` has lifecycles
+
+- `init` - lifecycle which runs on start of app
+- `login` - lifecycle which runs on user connection
+- `logout` - lifecycle which runs on user disconnection
+- `final` - lifeycycle which runs every time on any lifecycles

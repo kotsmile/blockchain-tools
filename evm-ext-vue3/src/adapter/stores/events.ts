@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia'
 import type { modules } from 'evm-ext'
 
-type EventState = modules.events.EventsState['event']
+type EventsState = modules.events.EventsState['events']
 
-export const useEvent = defineStore<'$event', EventState>('$event', {
+export const useEvents = defineStore<'$events', EventsState>('$events', {
   state: () => ({
     listeners: [],
     listenerId: 1,

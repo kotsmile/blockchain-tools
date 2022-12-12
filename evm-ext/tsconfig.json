@@ -1,13 +1,11 @@
 {
-  "include": ["src/**/*", "src"],
+  "include": ["src/**/*", "src/bin/examples/*/**.example"],
   "exclude": ["node_modules"],
   "compilerOptions": {
     "target": "es5",
     "module": "commonjs",
     "lib": ["esnext", "dom"],
-
     "outDir": "./lib",
-
     "declaration": true,
     "declarationMap": true,
     "resolveJsonModule": true,
