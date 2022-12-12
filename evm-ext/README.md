@@ -2,6 +2,10 @@
 
 ## PROJECT IN `ALPHA`
 
+## Example of Usage
+
+- [`vue3-evm-app`](https://github.com/kotsmile/blockchain-tools/tree/main/exmaples/vue3-evm-app)
+
 ## What is it for ?
 
 `evm-ext` - tool for interacting with EVM-compliant blockchains and blockchain contracts
