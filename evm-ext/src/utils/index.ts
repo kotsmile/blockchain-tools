@@ -76,3 +76,5 @@ export const generateLog = (label: string, colorHex: string) => {
   }
   return { log, warn, error }
 }
+
+export const defaultValue = <T>(v: T | undefined, value: T): T => v ?? value
