@@ -1,4 +1,4 @@
-import { defineEvmConfig, utils, modules } from 'evm-ext'
+import { defineEvmConfig, modules, utils } from 'evm-ext'
 import { vueAdapater, piniaStore } from 'evm-ext-vue3'
 
 import contractsJSON from '@/contracts/contracts.json'

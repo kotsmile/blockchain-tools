@@ -12,7 +12,7 @@ export const useToken = defineStore('token', {
   actions: {
     async onInit() {
       const { token } = useContracts()
-      this.symbol = await safeRead(token.symbol())
+      this.symbol = await safeRead(token.symbol(), 'NO SYMBOL')
       return true
     },
   },
