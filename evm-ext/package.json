@@ -1,6 +1,6 @@
 {
   "name": "evm-ext",
-  "version": "0.0.14-a",
+  "version": "0.0.15-a",
   "description": "Tool for interacting with EVM-compliant blockchains and blockchain contracts",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -31,7 +31,8 @@
     "build": "rm -rf ./lib && tsc",
     "format": "prettier --write \"./src/**/*.{js,ts,jsx,tsx,vue}\"",
     "lint": "prettier --check \"./src/**/*.{js,ts,jsx,tsx,vue}\"",
-    "bin:run": "yarn build && node ./lib/bin/index.js"
+    "bin:run": "yarn build && node ./lib/bin/index.js",
+    "pub": "yarn type && yarn test && yarn lint && yarn build && yarn publish"
   },
   "license": "MIT",
   "dependencies": {
