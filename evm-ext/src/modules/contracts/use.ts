@@ -67,14 +67,14 @@ export const useContracts_config = <
 ) => {
   return (signer?: INotNullSigner) => {
     if (!config.DEFAULT_CHAINID) {
-      warn('No `DEFAULT_CHAINID` in config')
+      warn('No `DEFAULT_CHAINID` in config', config)
       return {} as UseContracts<Contracts['shared'], ChainIds[number]>
     }
 
     const chainId = config.DEFAULT_CHAINID // TODO: get actual chainId from web3 store like
 
     if (!config.contractsJSON) {
-      warn('No `contractsJSON` in config')
+      warn('No `contractsJSON` in config', config)
       return {} as UseContracts<Contracts['shared'], ChainIds[number]>
     }
 
@@ -104,7 +104,7 @@ export const useContractsOnChain_config = <
     signer?: INotNullSigner
   ) => {
     if (!config.contractsJSON) {
-      warn('No `contractsJSON` in config')
+      warn('No `contractsJSON` in config', config)
       return {} as UseContracts<
         Cast<
           Contracts['on'][CurrentChainId],

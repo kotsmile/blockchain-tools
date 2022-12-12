@@ -27,4 +27,5 @@ export type EvmConfig<
   readonly stores?: Stores
   adapter: Adapter
   options?: Options
+  DEBUG?: boolean
 }

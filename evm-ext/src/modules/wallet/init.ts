@@ -9,5 +9,5 @@ export const init = async (config: EvmConfig) => {
   // initiate state
   state.wallet.chainId = state.wallet.DEFAULT_CHAINID = config.DEFAULT_CHAINID
   state.wallet.chainIds = config.chainIds
-  log('Initiated')
+  log('Initiated', config)
 }

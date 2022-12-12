@@ -1,3 +1,5 @@
+import type { EvmConfig } from '../config/type'
+
 export * as rpc from './chain/rpc'
 export * as chain from './chain'
 export type { INotNullSigner, ISigner } from './chain/type'
@@ -53,7 +55,8 @@ function padZero(str: string, len = 2) {
 }
 
 export const generateLog = (label: string, colorHex: string) => {
-  const log = (message: any) => {
+  const log = (message: any, config?: EvmConfig) => {
+    if (!config?.DEBUG) return
     console.log(
       `%c${label} ${message}`,
       `
@@ -63,10 +66,12 @@ export const generateLog = (label: string, colorHex: string) => {
     `
     )
   }
-  const warn = (message: any) => {
+  const warn = (message: any, config?: EvmConfig) => {
+    if (!config?.DEBUG) return
     console.warn(`${label} ${message}`)
   }
-  const error = (message: any) => {
+  const error = (message: any, config?: EvmConfig) => {
+    if (!config?.DEBUG) return
     console.error(`${label} ${message}`)
   }
   return { log, warn, error }

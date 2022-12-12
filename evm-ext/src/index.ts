@@ -5,5 +5,5 @@ export * as adapter from './adapter'
 export * as modules from './modules'
 export * as utils from './utils'
 
-import { safe, safeRead, safeWrite } from './utils'
-export { safe, safeRead, safeWrite }
+import { safe, safeRead, safeWrite, rpc } from './utils'
+export { safe, safeRead, safeWrite, rpc }

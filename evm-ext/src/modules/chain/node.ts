@@ -9,7 +9,7 @@ import { warn } from './utils'
 
 export const getRpc_config = <C extends EvmConfig>(config: C) => {
   if (!config.rpc) {
-    warn('No rpc function in config')
+    warn('No rpc function in config', config)
     return () => '__NO_RCP__'
   }
   return (chainId: ChainId) => config.rpc?.(getChainTag(chainId)) ?? '__NO_RPC__'

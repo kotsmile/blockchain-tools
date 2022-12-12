@@ -25,7 +25,7 @@ export const defineEvmConfig = <
 ) => {
   return () => ({
     init: async () => {
-      log('Init modules')
+      log('Init modules', config)
 
       await initContracts(config)
       await initChain(config)

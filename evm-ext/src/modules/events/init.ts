@@ -10,5 +10,5 @@ export const init = async (config: EvmConfig) => {
   state.events.listenerId = 1
   state.events.listeners = []
 
-  log('Initiated')
+  log('Initiated', config)
 }

@@ -43,7 +43,7 @@ export const useWallet_config = (config: EvmConfig) => {
       state.wallet.login = login
     },
     async connect(walletType: WalletType | null, chainId?: ChainId) {
-      log(`Connect to "${walletType}"`)
+      log(`Connect to "${walletType}"`, config)
 
       if (!walletType) return
 

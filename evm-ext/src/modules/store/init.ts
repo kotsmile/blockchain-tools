@@ -23,7 +23,7 @@ export const init = async (config: EvmConfig) => {
     }
   }
 
-  log('Initiated')
+  log('Initiated', config)
 
   await emit('init', {})
 }
